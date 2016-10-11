@@ -15,21 +15,13 @@ try {
     if (isset($_POST['SAMLResponse'])) {
         $samlSettings = new OneLogin_Saml2_Settings();
         $samlResponse = new OneLogin_Saml2_Response($samlSettings, $_POST['SAMLResponse']);
+
         if ($samlResponse->isValid()) {
-            echo 'You are: ' . $samlResponse->getNameId() . '<br>';
             $attributes = $samlResponse->getAttributes();
-            if (!empty($attributes)) {
-                echo 'You have the following attributes:<br>';
-                echo '<table><thead><th>Name</th><th>Values</th></thead><tbody>';
-                foreach ($attributes as $attributeName => $attributeValues) {
-                    echo '<tr><td>' . htmlentities($attributeName) . '</td><td><ul>';
-                    foreach ($attributeValues as $attributeValue) {
-                        echo '<li>' . htmlentities($attributeValue) . '</li>';
-                    }
-                    echo '</ul></td></tr>';
-                }
-                echo '</tbody></table>';
-            }
+            $attributes['nameId'] = $samlResponse->getNameId();
+
+            header('Content-Type: application/json');
+            echo json_encode($attributes);
         } else {
             echo 'Invalid SAML Response';
         }
