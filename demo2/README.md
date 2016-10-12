@@ -18,7 +18,26 @@
     - SP
         - `$spBaseUrl`
             - http://localhost:8000
+- **$** `pass:passwd -req -days 365 -in testem/2.csr -signkey testem/2.key -out testem/2.crt`
+
+```bash
+openssl req \
+    -new \
+    -newkey rsa:4096 \
+    -days 365 \
+    -nodes \
+    -x509 \
+    -subj "/C=US/ST=New York/L=New York/O=Grovo Learning Inc./OU=Engineering/CN=www.grovo.com" \
+    -keyout certs/sp.key \
+    -out certs/sp.crt
+```
+[Source<sup>1</sup>](http://superuser.com/a/226229)
+[Source<sup>2</sup>](http://www.shellhacks.com/en/HowTo-Create-CSR-using-OpenSSL-Without-Prompt-Non-Interactive)
+
+- **$** `openssl req -x509 -newkey rsa:2048 -keyout certs/sp.key -out certs/sp.cert -days 30`
+- **$** `export ONELOGIN_CUSTOMPATH=/{{CUSTOM_PATH}}/`
 - **$** `php -S localhost:8000`
+- **$** `chmod 400 <crt file>`
 
 ### SSOCircle - Log in
 POST https://idp.ssocircle.com/sso/UI/Login

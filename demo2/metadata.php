@@ -17,9 +17,9 @@ try {
     // Now we only validate SP settings
     $samlSettings = new OneLogin_Saml2_Settings();
 
-    $sp = $samlSettings->getSPData();
-    $samlMetadata = OneLogin_Saml2_Metadata::builder($sp);
-    // $samlMetadata = $samlSettings->getSPMetadata();
+    // $sp = $samlSettings->getSPData();
+    // $samlMetadata = OneLogin_Saml2_Metadata::builder($sp);
+    $samlMetadata = $samlSettings->getSPMetadata();
 
     $errors = $samlSettings->validateMetadata($samlMetadata);
 
